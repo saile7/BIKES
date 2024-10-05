@@ -1,0 +1,163 @@
+<?php
+include 'conexion.php';
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $rol = 'user';  // Por defecto, todos los nuevos registros son usuarios normales
+
+    // Verificar si el nombre de usuario ya existe
+    $checkQuery = "SELECT * FROM usuarios WHERE username = ?";
+    $stmt = $conn->prepare($checkQuery);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $message = "El nombre de usuario ya está registrado. <a href='login.php'>Iniciar sesión</a>";
+    } else {
+        // Si no existe, insertar el nuevo usuario
+        $insertQuery = "INSERT INTO usuarios (username, password, rol) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($insertQuery);
+        $stmt->bind_param("sss", $username, $password, $rol);
+        
+        if ($stmt->execute()) {
+            $message = "Registro exitoso. <a href='login.php'>Iniciar sesión</a>";
+        } else {
+            $message = "Error en el registro. Por favor, intenta de nuevo.";
+        }
+    }
+
+    $stmt->close();
+}
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="ci-icon/css/all.min.css">
+    <title>Registro</title>
+    <style type="text/css">
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("img/bici.jpg");
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+::-webkit-input-placeholder {
+    color: #eee;
+}
+
+/* Contenedor del formulario y banner */
+.wrapper {
+    padding-right: ;
+    position: relative;
+    width: 500px;
+    height: 65vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 50px 0 #00a6bc;
+    background: #081b29; /* Fondo para la sección del formulario */
+}
+h1{
+color:white;
+}
+.form {
+    display: flex;
+    width: 500px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.title {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.inp {
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+    width: 100%;
+}
+
+.input {
+    border: none;
+    outline: none;
+    background: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 17px;
+    color: #0ef;
+}
+
+.submit {
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-top: 25px;
+    padding: 10px 0;
+    font-size: 20px;
+    border-radius: 40px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #0d0c4b, #b8b602);
+    color: #fff;
+}
+
+.submit:hover {
+    background: linear-gradient(45deg, #0a7dff, #b700ff);
+}
+
+.footer {
+    margin-top: 30px;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+}
+
+.link {
+    color: #0ef;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+    </style>
+</head>
+<body>
+	<div class="wrapper">
+    <form method="post" action="registro.php" class="form">
+        <h1 class="title">Registro de Usuario</h1>
+         <?php if (!empty($message)): ?>
+        <div class="message"><?php echo $message; ?></div>
+    <?php endif;?>
+        <div class="inp">
+        <input type="text" id="username" name="username" class="input" required placeholder="Nombre de usuario"><br>
+        </div>
+        <div class="inp">
+        <input type="password" id="password" name="password" class="input" required placeholder="Contraseña"><br>
+        </div>
+        <button class="submit">REGISTRARSE</button>
+        <p class="footer">Si ya esta registrado <a href="login.php" class="link">Por favor, Aqui</a></p>
+    </form>
+    </div>
+</body>
+</html>

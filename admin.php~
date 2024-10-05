@@ -1,0 +1,145 @@
+<?php
+// Conexión a la base de datos
+include 'conexion.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'];
+    $precio = $_POST['precio'];
+    $descripcion = $_POST['descripcion'];
+    $categoria = $_POST['categoria'];
+    $imagen = $_FILES['imagen']['name'];
+    $imagen_tmp = $_FILES['imagen']['tmp_name'];
+    $ruta = 'uploads/' . $imagen;
+
+    if (move_uploaded_file($imagen_tmp, $ruta)) {
+        $sql = "INSERT INTO product (nombre, precio, descripcion, categoria, imagen) VALUES ('$nombre', '$precio', '$descripcion', '$categoria', '$imagen')";
+        if ($conn->query($sql) === TRUE) {
+            echo "Producto agregado exitosamente";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo "Error al subir la imagen";
+    }
+}
+
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Productos</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+        <nav>
+            <ul>
+                <li><a href="carrusel.php">Gestionar Carrusel</a></li>
+                <li><a href="admin.php">Gestionar Productos</a></li>
+                <li><a href="adminpromociones.php">Gestionar Promociones</a></li>
+                <li><a href="admintest.php">testimonios</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="logout.php">Cerrar Sesión</a>
+        </div>
+    </header>
+    <main>
+        <form action="admin.php" method="post" enctype="multipart/form-data">
+            <h2>Agregar Producto</h2>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" name="precio" step="0.01" required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" required></textarea>
+
+            <label for="categoria">Categoría:</label>
+            <select id="categoria" name="categoria" required>
+                <option value="Imp.Aros">Imp.Aros</option>
+                <option value="Imp.Ruedas">Imp.Ruedas</option>
+                <option value="Imp.Suspenciones">Imp.Suspenciones</option>
+                <option value="Imp.Catalina">Imp.Catalina</option>
+                <option value="Imp.Discos">Imp.Discos</option>
+                <option value="Imp.Manzanas">Imp.Manzanas</option>
+                <option value="Imp.Mordazas">Imp.Mordazas</option>
+                <option value="Imp.Shifter">Imp.Shifter</option>
+                <option value="Imp.Frenos">Imp.Frenos</option>
+                <option value="Imp.Stem">Imp.Stem</option>
+                <option value="Imp.Pinones">Imp.Piñones</option>
+                <option value="Imp.Tensor">Imp.Tensor</option>
+                <option value="Imp.Guantes">Imp.Guantes</option>
+                <option value="Imp.Cascos">Imp.Cascos</option>
+                <option value="Imp.Bolsos">Imp.Bolsos</option>
+                <option value="Imp.Herramientas">Imp.Herramientas</option>
+                <option value="Imp.Velocimetro">Imp.Velocimetro</option>
+                <option value="Imp.Caramañolas">Imp.Caramañolas</option>
+                <option value="Imp.Luces">Imp.Luces</option>
+                <option value="Fotocromaticas">Fotocromaticas</option>
+                <option value="Polarizadas">Polarizadas</option>
+                <option value="Loc.Bottom_Bracket">Loc.Bottom_Bracket</option>
+                <option value="Loc.Cadenilla">Loc.Cadenilla</option>
+                <option value="Loc.Descarrilador">Loc.Descarrilador</option>
+                <option value="Loc.Catalina">Loc.Catalina</option>
+                <option value="Loc.Discos">Loc.Discos</option>
+                <option value="Loc.Manzanas">Loc.Manzanas</option>
+                <option value="Loc.Mordazas">Loc.Mordazas</option>
+                <option value="Loc.Frenos_Discos">Loc.Frenos_Discos</option>
+                <option value="Loc.Platos">Loc.Platos</option>
+                <option value="Loc.Shifter">Loc.Shifter</option>
+                
+                
+            </select>
+
+            <label for="imagen">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
+
+            <input type="submit" value="Agregar Producto">
+        </form>
+
+        <!-- Mostrar lista de productos -->
+        <h2>Productos</h2>
+        <table>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+            <?php
+            include 'conexion.php';
+            $result = $conn->query("SELECT * FROM product ORDER BY nombre ASC");
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td><img src='uploads/" . $row['imagen'] . "' alt='" . $row['nombre'] . "' width='100'></td>";
+                    echo "<td>" . $row['nombre'] . "</td>";
+                    echo "<td>" . $row['precio'] . "</td>";
+                    echo "<td>" . $row['descripcion'] . "</td>";
+                    echo "<td>" . $row['categoria'] . "</td>";
+                     echo "<td>
+                        <a href='edit.php?edit=" . $row['id'] . "'>Editar</a> | 
+                        <a href='eliminar.php?id=" . $row['id'] . "' onclick=\"return confirm('¿Estás seguro de que quieres eliminar este producto?');\">Eliminar</a>
+                    </td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>No hay productos</td></tr>";
+            }
+            $conn->close();
+            ?>
+        </table>
+    </main>
+</body>
+</html>
+

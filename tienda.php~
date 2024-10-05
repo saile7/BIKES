@@ -1,0 +1,50 @@
+<?php
+session_start();
+include 'conexion.php';
+
+// Obtener los productos de la base de datos
+$sql = "SELECT * FROM productos";
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+    <title>Tienda Online</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="tienda.php">Productos</a></li>
+                <li><a href="#">Nosotros</a></li>
+                <li><a href="#">Contáctanos</a></li>
+            </ul>
+        </nav>
+        <div class="user-options">
+            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+                <a href="logout.php">Cerrar Sesión</a>
+            <?php else: ?>
+                <a href="login.php">Iniciar Sesión</a>
+                <a href="register.php">Registrarse</a>
+            <?php endif; ?>
+        </div>
+    </header>
+    <main>
+        <h1>Productos</h1>
+        <div class="product-grid">
+            <?php while($row = $result->fetch_assoc()): ?>
+            <div class="product-item">
+                <h2><?php echo $row['nombre']; ?></h2>
+                <img src="<?php echo $row['imagen']; ?>" alt="<?php echo $row['nombre']; ?>">
+                <p><?php echo $row['descripcion']; ?></p>
+                <p><strong>Precio:</strong> $<?php echo $row['precio']; ?></p>
+                <button>Comprar</button>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </main>
+</body>
+</html>

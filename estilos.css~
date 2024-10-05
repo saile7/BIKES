@@ -1,0 +1,597 @@
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+header .user-options {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+header .user-options a {
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
+}
+header h1 {
+    font-size: 24px;
+    margin: 0;
+    margin-right: 40px; /* Desplaza el nav a la derecha */
+}
+header nav {
+    margin-right: 80px;
+}
+
+/* Estilos para el menú principal */
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a, nav ul li .dropbtn {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: block;
+}
+
+nav ul li a:hover, nav ul li .dropbtn:hover {
+    background-color: #575757;
+    border-radius: 4px;
+}
+
+
+/* Estilo para el dropdown */
+.dropdown-content {
+    position: absolute;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+    min-width: 700px;
+    display: none; /* Por defecto está oculto */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Mostrar el dropdown solo al hacer hover en la opción del menú */
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/* Estilo para las secciones dentro del dropdown */
+.dropdown-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.dropdown-section h3 {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-section ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-section ul li {
+    margin: 5px 0;
+}
+
+.dropdown-section ul li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    display: block;
+}
+
+.dropdown-section ul li a:hover {
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 480px) {
+    .dropdown-content {
+    	 max-width: 100%;
+        flex-direction: column; /* Alinea las secciones verticalmente en pantallas pequeñas */
+        padding: 5px;
+      
+    }
+
+    .dropdown-section {
+        padding: 10px;
+    }
+
+    .dropdown-section h3 {
+        font-size: 14px; /* Reducir aún más el tamaño del título */
+    }
+
+    .dropdown-section ul li a {
+        font-size: 14px; /* Ajustar el tamaño de los enlaces */
+    }
+}
+
+/* Ajustes para el menú existente */
+nav ul .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1000;
+}
+
+nav ul li:hover > .submenu {
+    display: block;
+}
+
+nav ul .submenu li {
+    width: 200px;
+    position: relative;
+}
+
+nav ul .submenu li a {
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul .submenu .submenu {
+    top: 0;
+    left: 100%;
+    margin-left: 1px;
+    background-color: #333;
+    z-index: 1001;
+}
+
+nav ul .submenu li:hover > .submenu {
+    display: block;
+}
+
+/* Estilo adicional para mejorar la apariencia */
+nav ul li a {
+    white-space: nowrap;
+}
+
+nav ul .submenu li a:hover {
+    background-color: #f1f1f1;
+}
+
+
+
+.auth-buttons a, .logout a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.auth-buttons a:hover, .logout a:hover {
+    background-color: #0056b3;
+}
+/*barra de busqueda horizontal*/
+/* Contenedor de la barra de búsqueda */
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar horizontalmente */
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* Estilos del contenedor del formulario */
+.form-busqueda {
+    background-color: #333;
+    border: 0;
+    margin-left: 5px;
+    display: flex;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    max-width: 400px; /* Limita el ancho en pantallas grandes */
+    box-sizing: border-box;
+}
+
+/* Estilos del input de búsqueda */
+.busqueda-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px; /* Borde redondeado a la izquierda */
+    flex: 1; /* El input ocupará el espacio disponible */
+    font-size: 16px;
+}
+
+/* Estilos del botón de búsqueda */
+.busqueda-boton {
+    padding: 10px 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0; /* Borde redondeado a la derecha */
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.busqueda-boton:hover {
+    background-color: #0056b3; /* Color al pasar el mouse */
+}
+
+/* Media queries para pantallas medianas */
+@media (max-width: 768px) {
+    .form-busqueda {
+        max-width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible */
+    }
+
+    .busqueda-input, .busqueda-boton {
+        font-size: 14px; /* Reducir el tamaño del texto en pantallas medianas */
+        padding: 8px; /* Reducir el padding en pantallas medianas */
+    }
+}
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 480px) {
+    .form-busqueda {
+        flex-direction: column; /* Coloca el botón debajo del input en pantallas pequeñas */
+        margin-left: 0;
+    }
+
+    .busqueda-input {
+        border-radius: 4px; /* Quitar el borde redondeado lateral para pantallas pequeñas */
+        margin-bottom: 10px; /* Añadir espacio entre el input y el botón */
+    }
+
+    .busqueda-boton {
+        width: 100%; /* Hacer que el botón ocupe todo el ancho */
+        border-radius: 4px; /* Botón completamente redondeado */
+    }
+}
+
+/* botones de inicio de cecion*/
+.auth-buttons a {
+    font-size: 24px; /* Tamaño de los íconos */
+    color: #333; /* Color de los íconos */
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.auth-buttons a i {
+    vertical-align: middle;
+}
+
+/* Si deseas ocultar el texto si hay alguna etiqueta de texto adicional */
+.auth-buttons a span {
+    display: none;
+}
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+form, .message {
+    background: #fff;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 0;
+    margin: 0;
+}
+
+form h2, .message h2 {
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 24px;
+}
+
+form label, .message label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form textarea,
+form input[type="number"],
+.message input[type="text"],
+.message input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+form input[type="submit"],
+.message input[type="submit"] {
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 100%;
+}
+
+form input[type="submit"]:hover,
+.message input[type="submit"]:hover {
+    background: #0056b3;
+}
+
+.message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e0ffe0;
+    border: 1px solid #b0ffb0;
+    border-radius: 5px;
+    text-align: center;
+    width: 300px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td img {
+    width: 50px;
+}
+
+/* Estilos para la tienda online */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.product-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    object-fit: cover; /* Esto asegura que la imagen mantenga su relación de aspecto y se recorte si es necesario */
+}
+
+.product-item h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.product-item p {
+    font-size: 1em;
+    margin: 10px 0;
+}
+.product-item form{
+width: 120px;
+height: 60px;
+}
+.product-item form input{
+   width: 60px;
+   height: 10px;
+}
+.product-item button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+
+.product-item button:hover {
+    background-color: #45a049;
+}
+
+
+main {
+    padding: 20px;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 1200px) {
+    .product-item {
+        width: calc(50% - 20px); /* Dos productos por fila en pantallas medianas */
+    }
+}
+
+@media (max-width: 768px) {
+    .product-item {
+        width: calc(100% - 20px); /* Un producto por fila en pantallas pequeñas */
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .menu-div{
+		margin-left:10px;    	
+    }
+    nav ul {
+        flex-direction: column; /* Menú en columna en pantallas pequeñas */
+        width: 100%;
+    }
+
+    nav ul li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    header .user-options {
+        position: static; /* Alinear los enlaces en la parte superior en pantallas pequeñas */
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+/* Estilo para el contenedor del carrito */
+.cart-icon {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #7ac836; /* Color del texto */
+    text-decoration: none; /* Quitar subrayado del enlace */
+}
+
+/* Estilos para el icono del carrito y el contador */
+.cart-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-icon .fas.fa-shopping-cart {
+    color: white; /* Cambiar el color del icono a blanco */
+    font-size: 24px; /* Tamaño del icono */
+}
+
+.cart-icon .cart-count {
+    position: absolute;
+    top: -8px; /* Ajustar la posición vertical del contador */
+    right: -10px; /* Ajustar la posición horizontal del contador */
+    background-color: red; /* Color de fondo del contador */
+    color: white; /* Color del texto del contador */
+    border-radius: 50%; /* Hacer que el contador tenga forma circular */
+    padding: 2px 5px; /* Espaciado interno del contador */
+    font-size: 12px; /* Tamaño del texto del contador */
+}
+
+
+/* Estilo para el botón de vaciar carrito */
+.btn-vaciar {
+    background-color: #0aa0c8; /* Color de fondo rojo */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 30px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cursor de mano */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición para el color de fondo */
+}
+
+.btn-vaciar:hover {
+    background-color: #63c80a; /* Color de fondo rojo más oscuro al pasar el ratón */
+}
+.envio {
+    background-color: #0aa0c8; /* Color de fondo rojo */
+    color: white; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 30px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cursor de mano */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición para el color de fondo */
+}
+
+/*container body*/
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.promotions, .services {
+    margin-bottom: 40px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.price {
+    display: block;
+    font-size: 1.2em;
+    color: #e74c3c;
+    margin: 10px 0;
+}
+
+.btn-buy {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #27ae60;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.btn-buy:hover {
+    background: #2ecc71;
+}
+
+.service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.service-item {
+    padding: 20px;
+    background: #75706f;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/*CSS PROMOCIONES*/
+
+.hit-the-floor {
+color: #fff;
+font-size: 2em;
+font-weight: bold;
+font-family: Helvetica;
+text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
+}
+
+.hit-the-floor {
+  text-align: center;
+}
+
